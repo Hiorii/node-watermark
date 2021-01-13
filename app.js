@@ -15,9 +15,8 @@ const addTextWatermarkToImage = async function(inputFile, outputFile, text) {
         await image.quality(100).writeAsync(outputFile);
         console.log('Success !!!');
         startApp();
-    }
-    catch {
-        console.log('Something is wrong ... Try again');
+    } catch (err) {
+        console.log(err);
     }
 };
 
@@ -35,9 +34,8 @@ const addImageWatermarkToImage = async function(inputFile, outputFile, watermark
         await image.quality(100).writeAsync(outputFile);
         console.log('Success !!!');
         startApp();
-    }
-    catch {
-        console.log('Something is wrong ... Try again');
+    } catch (err) {
+        console.log(err);
     }
 };
 
@@ -75,12 +73,11 @@ const startApp = async () => {
         options.watermarkText = text.value;
 
         if(fs.existsSync(`./img/${options.inputImage}`)){
-            addTextWatermarkToImage('./img/' + options.inputImage, './img/' + prepareOutputFilename(options.inputImage), options.watermarkText);
-        }else{
+            addTextWatermarkToImage(`./img/ ${options.inputImage}`, `./img/ ${prepareOutputFilename(options.inputImage)}`, options.watermarkText);
+        } else {
             console.log('Something is wrong with the input Image ... Try again');
         }
-    }
-    else {
+    } else {
         const image = await inquirer.prompt([{
             name: 'filename',
             type: 'input',
@@ -91,11 +88,11 @@ const startApp = async () => {
 
         if(fs.existsSync(`./img/${options.inputImage}`)){
             if(fs.existsSync(`./img/${options.watermarkImage}`)){
-                addImageWatermarkToImage('./img/' + options.inputImage, './img/' + prepareOutputFilename(options.inputImage),'./img/' + options.watermarkImage);
-            }else{
+                addImageWatermarkToImage(`./img/ ${options.inputImage}`, `./img/ ${prepareOutputFilename(options.inputImage)}`,`./img/ ${options.watermarkImage}`);
+            } else {
                 console.log('Your water mark image path or name are incorect. Try again');
             }
-        }else{
+        } else {
             console.log('Something is wrong with the input Image ... Try again');
         };
     }
